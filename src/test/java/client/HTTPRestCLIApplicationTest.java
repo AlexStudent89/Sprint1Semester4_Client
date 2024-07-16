@@ -23,10 +23,10 @@ public class HTTPRestCLIApplicationTest {
     public void testGenerateAirportReport() {
         HTTPRestCLIApplication httpRestCLIApplicationUnderTest = new HTTPRestCLIApplication();
 
-        Airport stJohnsAirport = new Airport();
+        Airport stJohnsAirport = new Airport("YYT");
         stJohnsAirport.setCode("YYT");
         stJohnsAirport.setName("St. John's Airport");
-        stJohnsAirport.setId(1);
+        stJohnsAirport.setId(1L);
 
         List<Airport> airportList = new ArrayList<Airport>();
         airportList.add(stJohnsAirport);
