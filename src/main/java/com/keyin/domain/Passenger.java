@@ -1,3 +1,4 @@
+//Passenger
 package com.keyin.domain;
 
 import java.util.List;

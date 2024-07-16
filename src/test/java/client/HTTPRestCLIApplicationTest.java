@@ -1,3 +1,4 @@
+//HTTPRestCLIApplicationTest
 package client;
 
 import com.keyin.domain.Airport;
