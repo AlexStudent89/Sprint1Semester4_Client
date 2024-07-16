@@ -8,7 +8,7 @@ public class Airport {
     private String code;
     private City city;
 
-    public Airport() {
+    public Airport(String yyt) {
 
     }
 
