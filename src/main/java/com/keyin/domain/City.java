@@ -1,14 +1,20 @@
-package com.keyin.Sprint1Semester4_Client.client;
+package com.keyin.domain;
+
+
+import java.util.List;
+import java.util.Objects;
 
 public class City {
     private Long id;
     private String name;
-    private String state;
+    private String province;
     private int population;
 
-    // Constructors, getters, and setters
+    private List<Airport> airports;
+    private List<Passenger> passengers;
 
-    public City() {
+    // The Constructors
+    public City(long l, String s, String nlProvince, int i, Object o, Object object) {
     }
 
     public City(Long id, String name, String province, int population, List<Airport> airports, List<Passenger> passengers) {
@@ -18,6 +24,9 @@ public class City {
         this.population = population;
         this.airports = airports;
         this.passengers = passengers;
+    }
+
+    public City() {
     }
 
     // G and S
@@ -69,7 +78,7 @@ public class City {
         this.passengers = passengers;
     }
 
-    // toString(), equals() та hashCode()
+    // toString(), equals() and hashCode() methods are recommended for proper collection and debugging usage
     @Override
     public String toString() {
         return "City{" +
@@ -87,11 +96,12 @@ public class City {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         City city = (City) o;
-        return population == city.population && id.equals(city.id) && name.equals(city.name) && province.equals(city.province) && airports.equals(city.airports) && passengers.equals(city.passengers);
+        return population == city.population && id.equals(city.id) && name.equals(city.name) && province.equals(city.province) && Objects.equals(airports, city.airports) && Objects.equals(passengers, city.passengers);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id, name, province, population, airports, passengers);
     }
+
 }
