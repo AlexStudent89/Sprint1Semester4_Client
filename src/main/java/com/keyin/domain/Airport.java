@@ -1,6 +1,7 @@
 //Airport
 package com.keyin.domain;
 
+import java.util.Objects;
 
 public class Airport {
     private Long id;
@@ -8,8 +9,11 @@ public class Airport {
     private String code;
     private City city;
 
-    public Airport(String yyt) {
+    public Airport() {
+    }
 
+    public Airport(String code) {
+        this.code = code;
     }
 
     public Airport(Long id, String name, String code) {
@@ -49,5 +53,17 @@ public class Airport {
     public void setCity(City city) {
         this.city = city;
     }
-}
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Airport airport = (Airport) o;
+        return Objects.equals(code, airport.code);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(code);
+    }
+}
