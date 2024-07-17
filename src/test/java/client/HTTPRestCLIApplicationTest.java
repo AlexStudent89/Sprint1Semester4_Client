@@ -1,3 +1,4 @@
+
 //HTTPRestCLIApplicationTest
 package client;
 
@@ -23,12 +24,12 @@ public class HTTPRestCLIApplicationTest {
     public void testGenerateAirportReport() {
         HTTPRestCLIApplication httpRestCLIApplicationUnderTest = new HTTPRestCLIApplication();
 
-        Airport stJohnsAirport = new Airport("YYT");
+        Airport stJohnsAirport = new Airport();
         stJohnsAirport.setCode("YYT");
         stJohnsAirport.setName("St. John's Airport");
         stJohnsAirport.setId(1L);
 
-        List<Airport> airportList = new ArrayList<Airport>();
+        List<Airport> airportList = new ArrayList<>();
         airportList.add(stJohnsAirport);
 
         Mockito.when(mockRESTClient.getAllAirports()).thenReturn(airportList);
@@ -38,8 +39,8 @@ public class HTTPRestCLIApplicationTest {
         Assertions.assertTrue(httpRestCLIApplicationUnderTest.generateAirportReport().contains("YYT"));
     }
 
-
-    public void _testGenerateAirportReportWithError() {
+    @Test
+    public void testGenerateAirportReportWithError() {
         HTTPRestCLIApplication httpRestCLIApplicationUnderTest = new HTTPRestCLIApplication();
 
         RESTClient restClient = new RESTClient();
@@ -47,6 +48,6 @@ public class HTTPRestCLIApplicationTest {
 
         httpRestCLIApplicationUnderTest.setRestClient(restClient);
 
-        Assertions.assertTrue(httpRestCLIApplicationUnderTest.generateAirportReport().contains("YYT"));
+        Assertions.assertTrue(httpRestCLIApplicationUnderTest.generateAirportReport().contains("Error"));
     }
 }

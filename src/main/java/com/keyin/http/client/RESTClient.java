@@ -25,7 +25,7 @@ public class RESTClient {
 
         try {
             HttpResponse<String> response = getClient().send(request, HttpResponse.BodyHandlers.ofString());
-            if (response.statusCode()!=200) {
+            if (response.statusCode() != 200) {
                 System.out.println("Status Code: " + response.statusCode());
             }
 
@@ -38,37 +38,32 @@ public class RESTClient {
         return responseBody;
     }
 
-
     public List<Airport> getAllAirports() {
-        List<Airport> airports = new ArrayList<Airport>();
+        List<Airport> airports = new ArrayList<>();
 
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(serverURL)).build();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(serverURL + "/airports")).build();
 
         try {
             HttpResponse<String> response = getClient().send(request, HttpResponse.BodyHandlers.ofString());
-            if (response.statusCode()==200) {
+            if (response.statusCode() == 200) {
                 System.out.println("***** " + response.body());
+                airports = buildAirportListFromResponse(response.body());
             } else {
                 System.out.println("Error Status Code: " + response.statusCode());
             }
-
-            airports = buildAirportListFromResponse(response.body());
-
-
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
-
 
         return airports;
     }
 
     public List<Airport> buildAirportListFromResponse(String response) throws JsonProcessingException {
-        List<Airport> airports = new ArrayList<Airport>();
+        List<Airport> airports = new ArrayList<>();
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        airports = mapper.readValue(response, new TypeReference<List<Airport>>(){});
+        airports = mapper.readValue(response, new TypeReference<List<Airport>>() {});
 
         return airports;
     }
@@ -83,7 +78,7 @@ public class RESTClient {
 
     public HttpClient getClient() {
         if (client == null) {
-            client  = HttpClient.newHttpClient();
+            client = HttpClient.newHttpClient();
         }
 
         return client;

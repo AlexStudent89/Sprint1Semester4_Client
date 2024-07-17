@@ -1,10 +1,11 @@
-//HTTPRestCLIApplication
+//HTTPRestCLIApplication.java
 package com.keyin.http.cli;
 
 import com.keyin.domain.Airport;
 import com.keyin.http.client.RESTClient;
 
 import java.util.List;
+import java.util.Scanner;
 
 public class HTTPRestCLIApplication {
 
@@ -12,21 +13,20 @@ public class HTTPRestCLIApplication {
 
     public String generateAirportReport() {
         List<Airport> airports = getRestClient().getAllAirports();
+        if (airports == null || airports.isEmpty()) {
+            return "Error retrieving airport data";
+        }
 
-        StringBuffer report = new StringBuffer();
+        StringBuilder report = new StringBuilder("Airport Report:\n");
 
         for (Airport airport : airports) {
-            report.append(airport.getName());
-            report.append(" - ");
-            report.append(airport.getCode());
-
-            if (airports.indexOf(airport) != (airports.size() - 1)) {
-                report.append(",");
-            }
+            report.append("ID: ").append(airport.getId())
+                    .append(", Name: ").append(airport.getName())
+                    .append(", Code: ").append(airport.getCode())
+                    .append("\n");
         }
 
         System.out.println(report.toString());
-
         return report.toString();
     }
 
@@ -38,7 +38,6 @@ public class HTTPRestCLIApplication {
         if (restClient == null) {
             restClient = new RESTClient();
         }
-
         return restClient;
     }
 
@@ -47,27 +46,41 @@ public class HTTPRestCLIApplication {
     }
 
     public static void main(String[] args) {
-        for (String arg : args) {
-            System.out.println(arg);
-        }
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter server URL: ");
+        String serverURL = scanner.nextLine();
 
         HTTPRestCLIApplication cliApp = new HTTPRestCLIApplication();
 
-        String serverURL = args[0];
-
         if (serverURL != null && !serverURL.isEmpty()) {
-
             RESTClient restClient = new RESTClient();
             restClient.setServerURL(serverURL);
-
             cliApp.setRestClient(restClient);
 
-            if (serverURL.contains("greeting")) {
-                cliApp.listGreetings();
-            } else {
-                cliApp.generateAirportReport();
+            boolean running = true;
+
+            while (running) {
+                System.out.println("Choose an option:");
+                System.out.println("1. List all airports");
+                System.out.println("2. Exit");
+                int choice = scanner.nextInt();
+                scanner.nextLine();  // Consume newline
+
+                switch (choice) {
+                    case 1:
+                        cliApp.generateAirportReport();
+                        break;
+                    case 2:
+                        running = false;
+                        break;
+                    default:
+                        System.out.println("Invalid choice.");
+                }
             }
+        } else {
+            System.out.println("Server URL cannot be empty.");
         }
 
+        scanner.close();
     }
 }
