@@ -1,6 +1,7 @@
 //HTTPRestCLIApplication.java
 package com.keyin.http.cli;
 
+import com.keyin.domain.Aircraft;
 import com.keyin.domain.Airport;
 import com.keyin.http.client.RESTClient;
 
@@ -30,6 +31,27 @@ public class HTTPRestCLIApplication {
         return report.toString();
     }
 
+    public String generateAircraftReport() {
+        List<Aircraft> aircrafts = getRestClient().getAllAircraft();
+        if (aircrafts == null || aircrafts.isEmpty()) {
+            return "Error retrieving aircraft data";
+        }
+
+        StringBuilder report = new StringBuilder("Aircraft Report:\n");
+
+        for (Aircraft aircraft : aircrafts) {
+            report.append("ID: ").append(aircraft.getId())
+                    .append(", type: ").append(aircraft.getType())
+                    .append(", airlineName: ").append(aircraft.getAirlineName())
+                    .append(", numberOfPassengers: ").append(aircraft.getNumberOfPassengers())
+                    .append(", listOfAllowedAirports: ").append(aircraft.getListOfAllowedAirports())
+                    .append("\n");
+        }
+
+        System.out.println(report.toString());
+        return report.toString();
+    }
+
     private void listGreetings() {
         System.out.println(getRestClient().getResponseFromHTTPRequest());
     }
@@ -48,7 +70,7 @@ public class HTTPRestCLIApplication {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter server URL: ");
-        String serverURL = scanner.nextLine();
+        String serverURL = "http://localhost:8080";
 
         HTTPRestCLIApplication cliApp = new HTTPRestCLIApplication();
 
@@ -62,7 +84,8 @@ public class HTTPRestCLIApplication {
             while (running) {
                 System.out.println("Choose an option:");
                 System.out.println("1. List all airports");
-                System.out.println("2. Exit");
+                System.out.println("2. List all aircrafts");
+                System.out.println("3. Exit");
                 int choice = scanner.nextInt();
                 scanner.nextLine();  // Consume newline
 
@@ -71,8 +94,11 @@ public class HTTPRestCLIApplication {
                         cliApp.generateAirportReport();
                         break;
                     case 2:
+                        cliApp.generateAircraftReport();
+                    case 3:
                         running = false;
                         break;
+
                     default:
                         System.out.println("Invalid choice.");
                 }
