@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.keyin.domain.Aircraft;
 import com.keyin.domain.Airport;
+import com.keyin.domain.City;
 
 import java.io.IOException;
 import java.net.URI;
@@ -114,5 +115,9 @@ public class RESTClient {
         }
 
         return client;
+    }
+
+    public List<City> getAllCity() {
+        return List.of();
     }
 }

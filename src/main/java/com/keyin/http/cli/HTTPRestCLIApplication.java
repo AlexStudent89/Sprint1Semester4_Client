@@ -3,6 +3,7 @@ package com.keyin.http.cli;
 
 import com.keyin.domain.Aircraft;
 import com.keyin.domain.Airport;
+import com.keyin.domain.City;
 import com.keyin.http.client.RESTClient;
 
 import java.util.List;
@@ -45,6 +46,28 @@ public class HTTPRestCLIApplication {
                     .append(", airlineName: ").append(aircraft.getAirlineName())
                     .append(", numberOfPassengers: ").append(aircraft.getNumberOfPassengers())
                     .append(", listOfAllowedAirports: ").append(aircraft.getListOfAllowedAirports())
+                    .append("\n");
+        }
+
+        System.out.println(report.toString());
+        return report.toString();
+    }
+
+    public String generateCityReport() {
+        List<City> cities = getRestClient().getAllCity();
+        if (cities == null || cities.isEmpty()) {
+            return "Error retrieving city data";
+        }
+
+        StringBuilder report = new StringBuilder("City Report:\n");
+
+        for (City city : cities) {
+            report.append("ID: ").append(city.getId())
+                    .append(", name: ").append(city.getName())
+                    .append(", province: ").append(city.getProvince())
+                    .append(", population: ").append(city.getPopulation())
+                    .append(", airports: ").append(city.getAirports())
+                    .append(", passengers: ").append(city.getPassengers())
                     .append("\n");
         }
 
