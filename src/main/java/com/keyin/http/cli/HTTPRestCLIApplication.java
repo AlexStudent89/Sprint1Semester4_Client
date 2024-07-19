@@ -4,6 +4,7 @@ package com.keyin.http.cli;
 import com.keyin.domain.Aircraft;
 import com.keyin.domain.Airport;
 import com.keyin.domain.City;
+import com.keyin.domain.Passenger;
 import com.keyin.http.client.RESTClient;
 
 import java.util.List;
@@ -54,7 +55,7 @@ public class HTTPRestCLIApplication {
     }
 
     public String generateCityReport() {
-        List<City> cities = getRestClient().getAllCity();
+        List<City> cities = getRestClient().getAllCities();
         if (cities == null || cities.isEmpty()) {
             return "Error retrieving city data";
         }
@@ -75,26 +76,26 @@ public class HTTPRestCLIApplication {
         return report.toString();
     }
 
-//    public String generatePassengerReport() {
-//        List<Passenger> passengers = getRestClient().getAllPassenger();
-//        if (passengers == null || passengers.isEmpty()) {
-//            return "Error retrieving passenger data";
-//        }
-//
-//        StringBuilder report = new StringBuilder("Passenger Report:\n");
-//
-//        for (Passenger passenger : passengers) {
-//            report.append("ID: ").append(passenger.getId())
-//                    .append(", firstName: ").append(passenger.getFirstName())
-//                    .append(", lastName: ").append(passenger.getLastName())
-//                    .append(", phoneNumber: ").append(passenger.getPhoneNumber())
-//                    .append(", cityId: ").append(passenger.getCityId())
-//                    .append("\n");
-//        }
-//
-//        System.out.println(report.toString());
-//        return report.toString();
-//    }
+    public String generatePassengerReport() {
+        List<Passenger> passengers = getRestClient().getAllPassengers();
+        if (passengers == null || passengers.isEmpty()) {
+            return "Error retrieving passenger data";
+        }
+
+        StringBuilder report = new StringBuilder("Passenger Report:\n");
+
+        for (Passenger passenger : passengers) {
+            report.append("ID: ").append(passenger.getId())
+                    .append(", firstName: ").append(passenger.getFirstName())
+                    .append(", lastName: ").append(passenger.getLastName())
+                    .append(", phoneNumber: ").append(passenger.getPhoneNumber())
+                    .append(", cityId: ").append(passenger.getCityId())
+                    .append("\n");
+        }
+
+        System.out.println(report.toString());
+        return report.toString();
+    }
 
     private void listGreetings() {
         System.out.println(getRestClient().getResponseFromHTTPRequest());
@@ -129,7 +130,9 @@ public class HTTPRestCLIApplication {
                 System.out.println("Choose an option:");
                 System.out.println("1. List all airports");
                 System.out.println("2. List all aircrafts");
-                System.out.println("3. Exit");
+                System.out.println("3. List all cities");
+                System.out.println("4. List all passengers");
+                System.out.println("5. Exit");
                 int choice = scanner.nextInt();
                 scanner.nextLine();  // Consume newline
 
@@ -139,7 +142,14 @@ public class HTTPRestCLIApplication {
                         break;
                     case 2:
                         cliApp.generateAircraftReport();
+                        break;
                     case 3:
+                        cliApp.generateCityReport();
+                        break;
+                    case 4:
+                        cliApp.generatePassengerReport();
+                        break;
+                    case 5:
                         running = false;
                         break;
 

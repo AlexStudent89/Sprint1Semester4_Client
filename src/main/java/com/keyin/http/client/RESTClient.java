@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.keyin.domain.Aircraft;
 import com.keyin.domain.Airport;
 import com.keyin.domain.City;
+import com.keyin.domain.Passenger;
 
 import java.io.IOException;
 import java.net.URI;
@@ -80,6 +81,56 @@ public class RESTClient {
         return aircrafts;
     }
 
+    public List<City> getAllCities() {
+        List<City> cities = new ArrayList<>();
+
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(serverURL+ "/city/cities")).build();
+
+        try {
+            HttpResponse<String> response = getClient().send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() == 200) {
+                System.out.println("***** " + response.body());
+                cities = buildCityListFromResponse(response.body());
+            } else {
+                System.out.println("Error Status Code: " + response.statusCode());
+            }
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return cities;
+    }
+
+    public List<Passenger> getAllPassengers() {
+        List<Passenger> passengers = new ArrayList<>();
+
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(serverURL+ "/passenger/getAllPassengers")).build();
+
+        try {
+            HttpResponse<String> response = getClient().send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() == 200) {
+                System.out.println("***** " + response.body());
+                passengers = buildPassengerListFromResponse(response.body());
+            } else {
+                System.out.println("Error Status Code: " + response.statusCode());
+            }
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return passengers;
+    }
+
+    private List<Passenger> buildPassengerListFromResponse(String response) throws JsonProcessingException {
+        List<Passenger> passengers = new ArrayList<>();
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        passengers = mapper.readValue(response, new TypeReference<List<Passenger>>() {});
+
+        return passengers;
+    }
+
     private List<Aircraft> buildAircraftListFromResponse(String response) throws JsonProcessingException {
         List<Aircraft> aircrafts = new ArrayList<>();
 
@@ -88,6 +139,17 @@ public class RESTClient {
         aircrafts = mapper.readValue(response, new TypeReference<List<Aircraft>>() {});
 
         return aircrafts;
+
+    }
+
+    private List<City> buildCityListFromResponse(String response) throws JsonProcessingException {
+        List<City> cities = new ArrayList<>();
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        cities = mapper.readValue(response, new TypeReference<List<City>>() {});
+
+        return cities;
 
     }
 
@@ -117,7 +179,7 @@ public class RESTClient {
         return client;
     }
 
-    public List<City> getAllCity() {
-        return List.of();
-    }
+//    public List<City> getAllCity() {
+//        return List.of();
+//    }
 }
