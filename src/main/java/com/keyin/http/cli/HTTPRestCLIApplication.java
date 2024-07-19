@@ -75,6 +75,27 @@ public class HTTPRestCLIApplication {
         return report.toString();
     }
 
+//    public String generatePassengerReport() {
+//        List<Passenger> passengers = getRestClient().getAllPassenger();
+//        if (passengers == null || passengers.isEmpty()) {
+//            return "Error retrieving passenger data";
+//        }
+//
+//        StringBuilder report = new StringBuilder("Passenger Report:\n");
+//
+//        for (Passenger passenger : passengers) {
+//            report.append("ID: ").append(passenger.getId())
+//                    .append(", firstName: ").append(passenger.getFirstName())
+//                    .append(", lastName: ").append(passenger.getLastName())
+//                    .append(", phoneNumber: ").append(passenger.getPhoneNumber())
+//                    .append(", cityId: ").append(passenger.getCityId())
+//                    .append("\n");
+//        }
+//
+//        System.out.println(report.toString());
+//        return report.toString();
+//    }
+
     private void listGreetings() {
         System.out.println(getRestClient().getResponseFromHTTPRequest());
     }
